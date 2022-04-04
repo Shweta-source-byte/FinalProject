@@ -5,12 +5,12 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 //database connection
-const  Chat  = require("./models/Chat");
-const  connect  = require("./dbconnect");
+const  Chat  = require("/Chat");
+const  connect  = require("/dbconnect");
 
 //const  express  = require("express");
-const  connectdb  = require("./../dbconnect");
-const  Chats  = require("./../models/Chat");
+const  connectdb  = require("/dbconnect");
+const  Chats  = require("/Chat");
 const  router  =  express.Router();
 
 const  bodyParser  = require("body-parser");
