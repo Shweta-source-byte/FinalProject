@@ -8,6 +8,14 @@ const io = new Server(server);
 const  Chat  = require("./models/Chat");
 const  connect  = require("./dbconnect");
 
+const  express  = require("express");
+const  connectdb  = require("./../dbconnect");
+const  Chats  = require("./../models/Chat");
+const  router  =  express.Router();
+
+const  bodyParser  = require("body-parser");
+const  chatRouter  = require("./route/chatroute");
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
@@ -36,6 +44,40 @@ io.on('connection', (socket) => {
     chatMessage.save();
     });
    // });
+   router.route("/").get((req, res, next) =>  {
+    res.setHeader("Content-Type", "application/json");
+    res.statusCode  =  200;
+    connectdb.then(db  =>  {
+        Chats.find({}).then(chat  =>  {
+        res.json(chat);
+    });
+});
+});
 server.listen(8080, () => {
   console.log('listening on *:8080');
 });
+
+module.exports  =  router;
+//bodyparser middleware
+app.use(bodyParser.json());
+//routes
+app.use("/chats", chatRouter);
+// fetching initial chat messages from the database
+(function() {
+    fetch("/chats")
+    .then(data  =>  {
+    return  data.json();
+    })
+.then(json  =>  {
+json.map(data  =>  {
+let  li  =  document.createElement("li");
+let messages = docuemtn.getElementById("messages")
+let  span  =  document.createElement("span");
+messages.appendChild(li).append(data.message);
+
+    messages
+    .appendChild(span)
+    .append("by "  +  data.sender  +  ": "  +  formatTimeAgo(data.createdAt));
+});
+});
+})();
