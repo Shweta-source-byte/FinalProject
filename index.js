@@ -4,6 +4,9 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+//database connection
+const  Chat  = require("./models/Chat");
+const  connect  = require("./dbconnect");
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -26,6 +29,13 @@ io.on('connection', (socket) => {
     });
   });
 
+  connect.then(db  =>  {
+    console.log("connected correctly to the server");
+
+    let  chatMessage  =  new Chat({ message: msg, sender: "Anonymous"});
+    chatMessage.save();
+    });
+   // });
 server.listen(8080, () => {
   console.log('listening on *:8080');
 });
