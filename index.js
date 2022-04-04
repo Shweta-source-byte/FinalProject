@@ -61,10 +61,10 @@ module.exports  =  router;
 //bodyparser middleware
 app.use(bodyParser.json());
 //routes
-app.use("/chats", chatRouter);
+app.use("/chat", chatRouter);
 // fetching initial chat messages from the database
 (function() {
-    fetch("/chats")
+    fetch("/chat")
     .then(data  =>  {
     return  data.json();
     })
