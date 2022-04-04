@@ -4,9 +4,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-//database connection
-const  Chat  = require("/Chat");
-const  connect  = require("/dbconnect");
+
 
 
 app.get('/', (req, res) => {
