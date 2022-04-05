@@ -13,33 +13,33 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
 //MongoClient.connect(url, function(err,  db){
-MongoClient.connect(url, function(err, db){
-const messagesCollection = db.collection('chapApp');
+MongoClient.connect(url, (err, db) => {
+        const messagesCollection = db.collection('chapApp');
 
-  
-  io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
-    });
-  });
-  io.on('connection', (socket) => {
-      socket.on('chat message', (msg) => {
-        console.log('message: ' + msg);
-        //messagesCollection.insertOne({text:message}, function (err, res){
-          messagesCollection.insertOne ({text:message}, function(err, res){
-            console.log('inserted a codument into the messagessCollection');
+
+        io.on('connection', (socket) => {
+            console.log('a user connected');
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
         });
-      });
-    });
-    io.on('connection', (socket) => {
-      socket.on('chat message', (msg) => {
+        io.on('connection', (socket) => {
+            socket.on('chat message', (msg) => {
+                console.log('message: ' + msg);
+                //messagesCollection.insertOne({text:message}, function (err, res){
+                messagesCollection.insertOne({ text: message }, function (err, res) {
+                    console.log('inserted a codument into the messagessCollection');
+                });
+            });
+        });
+        io.on('connection', (socket) => {
+            socket.on('chat message', (msg) => {
 
-        io.emit('chat message', msg);
-      });
-    });
+                io.emit('chat message', msg);
+            });
+        });
 
-})
+    })
 
 
 
