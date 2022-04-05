@@ -8,13 +8,14 @@ const io = new Server(server);
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb+srv://Shweta:India12345@cluster0.6she9.mongodb.net/node_chat?retryWrites=true&w=majority';
 
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+  });
 //MongoClient.connect(url, function(err,  db){
 MongoClient.connect(url, function(err, db){
 //const messagesCollection = db.collection('messages');
 const messagesCollection = db.collection
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-  });
+
   
   io.on('connection', (socket) => {
     console.log('a user connected');
