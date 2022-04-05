@@ -4,8 +4,9 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+//const MongoClient = require('mongodb').MongoClient;
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017/node_chat';
+const url = 'mongodb+srv://Shweta:India12345@cluster0.6she9.mongodb.net/node_chat?retryWrites=true&w=majority';
 
 //MongoClient.connect(url, function(err,  db){
 MongoClient.connect(url, function(err, db){
