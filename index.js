@@ -4,10 +4,11 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-const mongoclient = require('mongodb').mongoclient;
+const MongoClient = require('mongodb').mongoclient;
 const url = 'mongodb://localhost:27017/node_chat';
 
-mongoclient.connect(url, function(err,  db){
+//MongoClient.connect(url, function(err,  db){
+MongoClient.connect(url, function(err, db){
 const messagesCollection = db.collection('messages');
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
