@@ -28,7 +28,7 @@ const messagesCollection = Db;
       socket.on('chat message', (msg) => {
         console.log('message: ' + msg);
         //messagesCollection.insertOne({text:message}, function (err, res){
-            messagesCollection.Db.insertOne({text:message}, function(err, res){
+            messagesCollection.Db.node_chat.insertOne({text:message}, function(err, res){
             console.log('inserted a codument into the messagessCollection');
         });
       });
