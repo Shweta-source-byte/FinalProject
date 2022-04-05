@@ -13,10 +13,8 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
 //MongoClient.connect(url, function(err,  db){
-MongoClient.connect(url, function(err, Db){
-//const messagesCollection = db.collection('messages');
-const messagesCollection = Db.collection('chapApp');
-//const messagesColl = Db.collection('messages');
+MongoClient.connect(url, function(err, db){
+const messagesCollection = db.collection('chapApp');
 
   
   io.on('connection', (socket) => {
