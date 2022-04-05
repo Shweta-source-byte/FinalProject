@@ -9,7 +9,8 @@ const url = 'mongodb://localhost:27017/node_chat';
 
 //MongoClient.connect(url, function(err,  db){
 MongoClient.connect(url, function(err, db){
-const messagesCollection = db.collection('messages');
+//const messagesCollection = db.collection('messages');
+const messagesCollection = db.collection
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
