@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const http = require('http');
+const { Db } = require('mongoose/node_modules/mongodb');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
@@ -12,9 +13,9 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
 //MongoClient.connect(url, function(err,  db){
-MongoClient.connect(url, function(err, db){
+MongoClient.connect(url, function(err, Db){
 //const messagesCollection = db.collection('messages');
-const messagesCollection = db.collection('messages');
+const messagesCollection = Db.collection('messages');
 
   
   io.on('connection', (socket) => {
