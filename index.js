@@ -4,7 +4,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-const MongoClient = require('mongodb').mongoclient;
+const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/node_chat';
 
 //MongoClient.connect(url, function(err,  db){
