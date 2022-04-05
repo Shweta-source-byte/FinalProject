@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 //MongoClient.connect(url, function(err,  db){
 MongoClient.connect(url, function(err, Db){
 //const messagesCollection = db.collection('messages');
-const messagesCollection = Db.collection('messages');
+const messagesCollection = Db;
 
   
   io.on('connection', (socket) => {
@@ -27,7 +27,8 @@ const messagesCollection = Db.collection('messages');
   io.on('connection', (socket) => {
       socket.on('chat message', (msg) => {
         console.log('message: ' + msg);
-        messagesCollection.insertOne({text:message}, function (err, res){
+        //messagesCollection.insertOne({text:message}, function (err, res){
+            messagesCollection.Db.insertOne({text:message}, function(err, res){
             console.log('inserted a codument into the messagessCollection');
         });
       });
