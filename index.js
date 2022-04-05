@@ -26,13 +26,15 @@ const messagesCollection = db.collection
   io.on('connection', (socket) => {
       socket.on('chat message', (msg) => {
         console.log('message: ' + msg);
+        messagesCollection.insertOne({text:message}, function (err, res){
+            
+            console.log('inserted a codument into the messagessCollection');
+        });
       });
     });
     io.on('connection', (socket) => {
       socket.on('chat message', (msg) => {
-        messagesCollection.insertOne({text:message}, function (err, res){
-            console.log('inserted a codument into the messagessCollection');
-        });
+
         io.emit('chat message', msg);
       });
     });
