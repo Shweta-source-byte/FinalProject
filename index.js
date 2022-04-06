@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
   });
 //MongoClient.connect(url, function(err,  db){
 MongoClient.connect(url, (err, db) => {
-        const messagesCollection = db.collection('chapApp');
-       // const messagessCollection = db.messagesCollection;
+        //const messagesCollection = db.collection('chapApp');
+       const messagessCollection = db.messagesCollection;
 
 
         io.on('connection', (socket) => {
