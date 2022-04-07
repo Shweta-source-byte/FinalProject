@@ -13,9 +13,9 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
 //MongoClient.connect(url, function(err,  db){
-MongoClient.connect(url, (err, db) => {
+//MongoClient.connect(url, (err, db) => {
         //const messagesCollection = db.collection('chapApp');
-       const collection = db.collection ('chapApp');
+       //const collection = db.collection ('chapApp');
        //const messagesCollection = db.collection ('chapApp');
 
 
@@ -29,8 +29,8 @@ MongoClient.connect(url, (err, db) => {
             socket.on('chat message', (msg) => {
                 console.log('message: ' + msg);
                 //messagesCollection.insertOne({text:message}, function (err, res){
-                    collection.inserOne({ text: msg }, function (err, res) {
-                    console.log('inserted a codument into the messagessCollection');
+                    //collection.inserOne({ text: msg }, function (err, res) {
+                    //console.log('inserted a codument into the messagessCollection');
                 });
             });
         });
