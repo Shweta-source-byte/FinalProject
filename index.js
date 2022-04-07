@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
                     //console.log('inserted a codument into the messagessCollection');
                 });
             });
-        });
+        //});
         io.on('connection', (socket) => {
             socket.on('chat message', (msg) => {
 
