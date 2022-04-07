@@ -15,4 +15,4 @@ function removeUser(id) {
     return users.splice(index, 1)[0];
   }
 }
-export default{ joinUser, removeUser}
+module.exports ={ joinUser, removeUser}
