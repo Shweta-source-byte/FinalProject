@@ -12,11 +12,11 @@ const url = 'mongodb+srv://Shweta:India12345@cluster0.6she9.mongodb.net/node_cha
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
-//MongoClient.connect(url, function(err,  db){
-//MongoClient.connect(url, (err, db) => {
+MongoClient.connect(url, function(err,  db){
+MongoClient.connect(url, (err, db) => {
         //const messagesCollection = db.collection('chapApp');
        //const collection = db.collection ('chapApp');
-       //const messagesCollection = db.collection ('chapApp');
+       const messagesCollection = db.collection ('chapApp');
 
 
         io.on('connection', (socket) => {
@@ -28,12 +28,12 @@ app.get('/', (req, res) => {
         io.on('connection', (socket) => {
             socket.on('chat message', (msg) => {
                 console.log('message: ' + msg);
-                //messagesCollection.insertOne({text:message}, function (err, res){
+                messagesCollection.insertOne({text:message}, function (err, res){
                     //collection.inserOne({ text: msg }, function (err, res) {
-                    //console.log('inserted a codument into the messagessCollection');
+                    console.log('inserted a codument into the messagessCollection');
                 });
             });
-        //});
+        });
         io.on('connection', (socket) => {
             socket.on('chat message', (msg) => {
 
@@ -41,8 +41,8 @@ app.get('/', (req, res) => {
             });
         });
 
-    //})
-
+    })
+});
 
 
   
