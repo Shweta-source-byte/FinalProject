@@ -28,9 +28,9 @@ MongoClient.connect(url, (err, db) => {
         io.on('connection', (socket) => {
             socket.on('chat message', (msg) => {
                 console.log('message: ' + msg);
-                messagesCollection.insertOne({text:message}, function (err, res){
+                //messagesCollection.insertOne({text:message}, function (err, res){
                     //collection.inserOne({ text: msg }, function (err, res) {
-                    console.log('inserted a codument into the messagessCollection');
+                    //console.log('inserted a codument into the messagessCollection');
                 });
             });
         });
@@ -42,7 +42,7 @@ MongoClient.connect(url, (err, db) => {
         });
 
     })
-});
+
 
 
   
