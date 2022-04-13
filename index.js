@@ -1,52 +1,85 @@
-const express = require('express');
-const app = express();
-const http = require('http');
-const { Db } = require('mongoose/node_modules/mongodb');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
-//const MongoClient = require('mongodb').MongoClient;
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb+srv://Shweta:India12345@cluster0.6she9.mongodb.net/node_chat?retryWrites=true&w=majority';
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-  });
-MongoClient.connect(url, function(err,  db){
-MongoClient.connect(url, (err, db) => {
-        //const messagesCollection = db.collection('chapApp');
-       //const collection = db.collection ('chapApp');
-       const messagesCollection = db.collection ('chapApp');
-
-
-        io.on('connection', (socket) => {
-            console.log('a user connected');
-            socket.on('disconnect', () => {
-                console.log('user disconnected');
-            });
-        });
-        io.on('connection', (socket) => {
-            socket.on('chat message', (msg) => {
-                console.log('message: ' + msg);
-                //messagesCollection.insertOne({text:message}, function (err, res){
-                    //collection.inserOne({ text: msg }, function (err, res) {
-                    //console.log('inserted a codument into the messagessCollection');
-                });
-            });
-        });
-        io.on('connection', (socket) => {
-            socket.on('chat message', (msg) => {
-
-                io.emit('chat message', msg);
-            });
-        });
-
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const port = process.env.PORT || 3000;
+const mongoose = require('mongoose')
+const Message = require('./message')
+const Connection = require('./connection')
+const rooms = {}
+//connection to mongo DB server through mongoose library
+mongoose.connect('mongodb://localhost:27017/testdb')
+//function used to query message logs to mongo DB server
+async function queryMessageToMongoose(msg, room) {
+  try {
+    let msgToMongooose = await Message.create({
+      message: msg,
+      room: room
     })
+  }
+  catch (e) {
+    console.log("DB ERROR: " + e.message)
+  }
+
+}
+
+async function queryConnectionStatusToMongoose(status, room) {
+  try {
+    let msgToMongooose = await Connection.create({
+      status: status,
+      room: room
+    })
+  }
+  catch (e) {
+    console.log("DB ERROR: " + e.message)
+  }
+}
+io.on('connection', (socket) => {
+
+  rooms[socket.id] = [socket.id]
+
+  queryConnectionStatusToMongoose('connected', socket.id)
+ 
+  socket.on('chat message', (msg, room) => {
+    //
+    if (!room) {
+      io.emit('chat message', msg);
+      console.log('@chat-message, if, no room: ' + msg);
+      queryMessageToMongoose(msg, "-1")
+    }
+    else {
+      queryMessageToMongoose(msg, room)
+      console.log('@chat-message, else, with room: ' + room + "   " + msg + "SOCKET ID:  " + socket.id);
+      socket.to(room).emit('chat message',msg)
+    }
+
+  });
 
 
+  socket.on('room assign', (roomNum) => {
+    
+    if (rooms[roomNum]) {
+      socket.join(roomNum)
+      rooms[roomNum].push(socket.id)
+    } else {
+      rooms[roomNum] = [socket.id]
+    }
 
-  
-server.listen(8080, () => {
-  console.log('listening on *:8080');
+    
+  })
+
+  socket.on('disconnect', () => {
+    queryConnectionStatusToMongoose('disconnected', socket.id)
+    console.log("A user Disconnected from room " + socket.id)
+
+  })
+
+
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+
+http.listen(port, () => {
+  console.log(`Socket.IO server running at http://localhost:${port}/`);
+});
